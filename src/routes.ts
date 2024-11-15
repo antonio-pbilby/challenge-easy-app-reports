@@ -8,8 +8,7 @@ import { loginSchema } from "./modules/users/schemas/login.schema";
 import { authenticate } from "./middlewares/authenticate.middleware";
 import type { AccountController } from "./modules/account/account.controller";
 import { depositSchema } from "./modules/account/schemas/deposit.schema";
-
-export const router = Router();
+import { withdrawSchema } from "./modules/account/schemas/withdraw.schema";
 
 const userController = container.resolve<UserController>(
 	InjectionTokens.USER_CONTROLLER,
@@ -18,27 +17,38 @@ const accountController = container.resolve<AccountController>(
 	InjectionTokens.ACCOUNT_CONTROLLER,
 );
 
-router.post(
-	"/users",
+export const usersRouter = Router();
+export const authRouter = Router();
+export const accountRouter = Router();
+
+usersRouter.post(
+	"/",
 	validateRequest(createUserSchema),
 	userController.create.bind(userController),
 );
 
-router.post(
+authRouter.post(
 	"/login",
 	validateRequest(loginSchema),
 	userController.login.bind(userController),
 );
 
-router.get(
+accountRouter.get(
 	"/balance",
 	authenticate,
 	accountController.getBalance.bind(accountController),
 );
 
-router.post(
-	"/balance",
+accountRouter.post(
+	"/deposit",
 	authenticate,
 	validateRequest(depositSchema),
 	accountController.deposit.bind(accountController),
+);
+
+accountRouter.post(
+	"/withdraw",
+	authenticate,
+	validateRequest(withdrawSchema),
+	accountController.withdraw.bind(accountController),
 );

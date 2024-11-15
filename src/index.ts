@@ -1,15 +1,17 @@
 import "reflect-metadata";
 import "./container";
 import express, { json } from "express";
-import { router } from "./routes";
 import { errorHandler } from "./middlewares/error-handler.middleware";
+import { accountRouter, authRouter, usersRouter } from "./routes";
 
 const start = async () => {
 	const app = express();
 
 	app.use(json());
 
-	app.use("/v1", router);
+	app.use("/auth", authRouter);
+	app.use("/users", usersRouter);
+	app.use("/account", accountRouter);
 
 	app.use(errorHandler);
 

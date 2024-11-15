@@ -23,4 +23,11 @@ export class AccountController {
 
 		res.send(await this.accountService.deposit({ userId: id, amount }));
 	}
+
+	async withdraw(req: Request, res: Response) {
+		const { id } = (req as RequestWithUser).user;
+		const amount = req.body.amount;
+
+		res.send(await this.accountService.withdraw({ userId: id, amount }));
+	}
 }
