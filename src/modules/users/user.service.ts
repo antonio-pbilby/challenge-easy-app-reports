@@ -7,6 +7,7 @@ import { InjectionTokens } from "../../utils/injection-tokens";
 import type { CreateUserDTO } from "./schemas/create-user.schema";
 import { LoginException } from "../../exceptions/login.exception";
 import { envConfig } from "../../config";
+import { UnauthorizedException } from "../../exceptions/unauthorized.exception";
 
 @singleton()
 export class UserService {
@@ -57,5 +58,14 @@ export class UserService {
 		);
 
 		return token;
+	}
+
+	async authenticate(token: string) {
+		try {
+			const data = jwt.verify(token, envConfig.API_SECRET);
+			return data;
+		} catch (err) {
+			throw new UnauthorizedException([{ error: "Invalid token" }]);
+		}
 	}
 }
