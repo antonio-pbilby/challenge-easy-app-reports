@@ -1,5 +1,5 @@
 import { injectable } from "tsyringe";
-import { User } from "../../entities/user.entity";
+import type { User } from "../../entities/user.entity";
 import { usersTable } from "../../db/schema";
 import { db } from "../../db";
 
@@ -12,12 +12,10 @@ export class UserRepository {
 		return createdUser;
 	}
 
-	async findByEmailOrCpf(email: string, cpf: string) {
+	async findByEmailOrCpf({ cpf, email }: { email: string; cpf: string }) {
 		const user = await db.query.usersTable.findFirst({
-			where: (users, { eq, or }) => or(
-				eq(users.email, email),
-				eq(users.cpf, cpf)
-			)
+			where: (users, { eq, or }) =>
+				or(eq(users.email, email), eq(users.cpf, cpf)),
 		});
 
 		return user;

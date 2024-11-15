@@ -20,9 +20,9 @@ export const createUserSchema = z.object({
 		})
 		.strict()
 		.refine((data) => data.confirmPassword === data.password, {
-			message: 'Password does not match confirm password',
-			path: ['password']
-		})
+			message: "Password does not match confirm password",
+			path: ["password"],
+		}),
 });
 
 export type CreateUserDTO = z.infer<typeof createUserSchema>["body"];
