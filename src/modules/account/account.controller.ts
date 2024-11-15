@@ -16,4 +16,11 @@ export class AccountController {
 		const account = await this.accountService.getBalance(id);
 		res.send({ account });
 	}
+
+	async deposit(req: Request, res: Response) {
+		const { id } = (req as RequestWithUser).user;
+		const amount = req.body.amount;
+
+		res.send(await this.accountService.deposit({ userId: id, amount }));
+	}
 }

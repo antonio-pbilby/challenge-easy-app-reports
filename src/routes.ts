@@ -7,6 +7,7 @@ import { createUserSchema } from "./modules/users/schemas/create-user.schema";
 import { loginSchema } from "./modules/users/schemas/login.schema";
 import { authenticate } from "./middlewares/authenticate.middleware";
 import type { AccountController } from "./modules/account/account.controller";
+import { depositSchema } from "./modules/account/schemas/deposit.schema";
 
 export const router = Router();
 
@@ -33,4 +34,11 @@ router.get(
 	"/balance",
 	authenticate,
 	accountController.getBalance.bind(accountController),
+);
+
+router.post(
+	"/balance",
+	authenticate,
+	validateRequest(depositSchema),
+	accountController.deposit.bind(accountController),
 );
