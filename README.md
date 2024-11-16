@@ -1,22 +1,43 @@
-# Tecnologias
+### Instalação de dependências
 
-## Biomejs
-Formatação e linting do código. Alternativa para o ESLint e Prettier. Mais fácil de fazer a configuração inicial.
+Necessário: Node v20.
 
-## TypeScript e TSX
-Tipagem, build e ambiente de desenvolvimento. TSX é uma das novas alternativas aos antigos nodemon, ts-node-dev, ts-node. Mais fácil de customizar também.
+```
+npm install
+```
 
-## Express
-Biblioteca de servidor HTTP, muito recurso pronto, ecossistema robusto e já tinha experiência prévia.
+### Subir o banco
 
-## Bcrypt
-Hash e criptografia para dados sensíveis, nesse caso a senha.
+O projeto usa uma imagem do Postgres v15 num container docker, para executar é necessário ter o docker instalado na máquina:
 
-## Zod
-Validação de objetos e schemas, alternativa moderna e robusta para o Joi e Yup, com integração simples e direta com o TypeScript (z.infertype<>)
+```
+docker compose up
+```
 
-## Mongoose
-Utilizar banco não relacional facilita o desenvolvimento, evitando manutenção na estrutura do banco caso fosse relacional.
+### Subir o projeto em desenvolvimento
 
-## Tsyringe
-Injeção de dependências.
+```
+npm run dev
+```
+
+### Buildar para produção
+
+```
+npm run build
+```
+
+### Rodar a build
+
+```
+docker compose up app
+```
+
+### Rodar o banco e a build
+
+```
+docker compose up
+```
+
+### Configurar as variáveis de ambiente
+
+Use de exemplo o arquivo na raiz do projeto `.env.example`
