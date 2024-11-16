@@ -19,24 +19,29 @@ export class AccountController {
 
 	async deposit(req: Request, res: Response) {
 		const { id } = (req as RequestWithUser).user;
-		const amount = req.body.amount;
+		const { amount, time } = req.body;
 
-		res.send(await this.accountService.deposit({ userId: id, amount }));
+		res.send(await this.accountService.deposit({ userId: id, amount, time }));
 	}
 
 	async withdraw(req: Request, res: Response) {
 		const { id } = (req as RequestWithUser).user;
-		const amount = req.body.amount;
+		const { amount, time } = req.body;
 
-		res.send(await this.accountService.withdraw({ userId: id, amount }));
+		res.send(await this.accountService.withdraw({ userId: id, amount, time }));
 	}
 
 	async transfer(req: Request, res: Response) {
 		const { id } = (req as RequestWithUser).user;
-		const { amount, recipientId } = req.body;
+		const { amount, recipientId, time } = req.body;
 
 		res.send(
-			await this.accountService.transfer({ senderId: id, amount, recipientId }),
+			await this.accountService.transfer({
+				senderId: id,
+				amount,
+				recipientId,
+				time,
+			}),
 		);
 	}
 }
