@@ -30,4 +30,13 @@ export class AccountController {
 
 		res.send(await this.accountService.withdraw({ userId: id, amount }));
 	}
+
+	async transfer(req: Request, res: Response) {
+		const { id } = (req as RequestWithUser).user;
+		const { amount, recipientId } = req.body;
+
+		res.send(
+			await this.accountService.transfer({ senderId: id, amount, recipientId }),
+		);
+	}
 }

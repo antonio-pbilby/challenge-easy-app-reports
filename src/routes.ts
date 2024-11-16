@@ -9,6 +9,7 @@ import { authenticate } from "./middlewares/authenticate.middleware";
 import type { AccountController } from "./modules/account/account.controller";
 import { depositSchema } from "./modules/account/schemas/deposit.schema";
 import { withdrawSchema } from "./modules/account/schemas/withdraw.schema";
+import { transferSchema } from "./modules/account/schemas/transfer.schema";
 
 const userController = container.resolve<UserController>(
 	InjectionTokens.USER_CONTROLLER,
@@ -18,37 +19,40 @@ const accountController = container.resolve<AccountController>(
 );
 
 export const usersRouter = Router();
-export const authRouter = Router();
-export const accountRouter = Router();
-
 usersRouter.post(
 	"/",
 	validateRequest(createUserSchema),
 	userController.create.bind(userController),
 );
 
+export const authRouter = Router();
 authRouter.post(
 	"/login",
 	validateRequest(loginSchema),
 	userController.login.bind(userController),
 );
 
+export const accountRouter = Router();
 accountRouter.get(
 	"/balance",
 	authenticate,
 	accountController.getBalance.bind(accountController),
 );
-
 accountRouter.post(
 	"/deposit",
 	authenticate,
 	validateRequest(depositSchema),
 	accountController.deposit.bind(accountController),
 );
-
 accountRouter.post(
 	"/withdraw",
 	authenticate,
 	validateRequest(withdrawSchema),
 	accountController.withdraw.bind(accountController),
+);
+accountRouter.post(
+	"/transfer",
+	authenticate,
+	validateRequest(transferSchema),
+	accountController.transfer.bind(accountController),
 );

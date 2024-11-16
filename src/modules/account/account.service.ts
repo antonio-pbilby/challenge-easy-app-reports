@@ -66,4 +66,48 @@ export class AccountService {
 			newAmount.toString(),
 		);
 	}
+
+	async transfer({
+		amount,
+		recipientId,
+		senderId,
+	}: { senderId: number; recipientId: number; amount: string | number }) {
+		const [error, decimalAmount] = errorAsValue(() =>
+			new Decimal(amount).abs(),
+		);
+		if (error) throw new BadRequestException("Invalid amount");
+
+		const senderAccount =
+			await this.accountRepository.getAccountByUserId(senderId);
+		if (!senderAccount)
+			throw new BadRequestException("Sender account not found");
+
+		const recipientAccount =
+			await this.accountRepository.getAccountByUserId(recipientId);
+		if (!recipientAccount)
+			throw new BadRequestException("Recipient account not found");
+
+		const senderHasFunds = new Decimal(senderAccount.balance).gte(
+			decimalAmount,
+		);
+		if (!senderHasFunds) throw new BadRequestException("Insuficient funds");
+
+		const senderNewAmount = new Decimal(senderAccount.balance).minus(
+			decimalAmount,
+		);
+		const recipientNewAmount = new Decimal(recipientAccount.balance).plus(
+			decimalAmount,
+		);
+
+		return {
+			sender: await this.accountRepository.updateBalance(
+				senderAccount.id,
+				senderNewAmount.toString(),
+			),
+			recipient: await this.accountRepository.updateBalance(
+				recipientAccount.id,
+				recipientNewAmount.toString(),
+			),
+		};
+	}
 }
