@@ -6,16 +6,25 @@ Required: Node v20.
 
 ```
 npm install
+
 ```
 
-### Creating a database instance
+### Configure your environment
 
-O projeto usa uma imagem do Postgres v15 num container docker, para executar é necessário ter o docker instalado na máquina:
+Use the `.env.example` as reference to create your `.env` file.
+
+### Creating a database instance
 
 The project uses a Postgres v15 image in a docker container, to execute it, you must have docker installed
 
 ```
-docker compose up
+docker compose up postgres
+```
+
+This project uses drizzleORM, and to setup the database, you can run the npx command, don't forget to setup your `.env`:
+
+```
+npx drizzle-kit push
 ```
 
 ### Run a dev server
@@ -25,6 +34,8 @@ npm run dev
 ```
 
 ### Build to production
+
+Before building to production, don't forget to update your `.env` file. Since your application will be running inside docker, the `localhost` of the application container won't be the same as your machine `localhost`. So a valid `DATABASE_URL` would be `DATABASE_URL=postgresql://myuser:mypassword@postgres/mydatabase`
 
 ```
 npm run build
@@ -41,10 +52,6 @@ docker compose up app
 ```
 docker compose up
 ```
-
-### Configure your environment
-
-Use the `.env.example` as reference to create your `.env` file.
 
 # API Documentation
 
