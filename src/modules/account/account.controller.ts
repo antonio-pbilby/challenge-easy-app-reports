@@ -44,4 +44,10 @@ export class AccountController {
 			}),
 		);
 	}
+
+	async getTransactionHistory(req: Request, res: Response) {
+		const { id } = (req as RequestWithUser).user;
+
+		res.send(await this.accountService.accountHistory(id));
+	}
 }

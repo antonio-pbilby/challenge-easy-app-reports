@@ -56,3 +56,8 @@ accountRouter.post(
 	validateRequest(transferSchema),
 	accountController.transfer.bind(accountController),
 );
+accountRouter.get(
+	"/history",
+	authenticate,
+	accountController.getTransactionHistory.bind(accountController),
+);

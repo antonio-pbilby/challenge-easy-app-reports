@@ -112,4 +112,14 @@ export class AccountService {
 
 		return response.sender;
 	}
+
+	async accountHistory(userId: number) {
+		const account = await this.accountRepository.getAccountByUserId(userId);
+		if (!account) throw new BadRequestException("Account not found");
+
+		const history = await this.transactionRepository.getUserTransactionHistory(
+			account.id,
+		);
+		return history;
+	}
 }
