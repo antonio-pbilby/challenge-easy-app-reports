@@ -44,9 +44,11 @@ docker compose up
 
 ### Configure your environment
 
-Use de exemplo o arquivo na raiz do projeto `.env.example`
+Use the `.env.example` as reference to create your `.env` file.
 
 # API Documentation
+
+Alternatively, you can use the `api-docs.json` in the root folder to import into your Postman client.
 
 ## Users
 
