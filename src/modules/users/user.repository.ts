@@ -5,7 +5,7 @@ import { db } from "../../db";
 
 @injectable()
 export class UserRepository {
-	dbClient = db;
+	private readonly dbClient = db;
 	async create(user: User) {
 		const createdUser = await this.dbClient
 			.insert(users)

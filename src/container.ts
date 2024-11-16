@@ -6,6 +6,7 @@ import { UserController } from "./modules/users/users.controller";
 import { AccountRepository } from "./modules/account/account.repository";
 import { AccountService } from "./modules/account/account.service";
 import { AccountController } from "./modules/account/account.controller";
+import { TransactionRepository } from "./modules/transaction/transaction.repository";
 
 container.register(InjectionTokens.USER_REPOSITORY, {
 	useClass: UserRepository,
@@ -25,4 +26,8 @@ container.register(InjectionTokens.ACCOUNT_SERVICE, {
 });
 container.register(InjectionTokens.ACCOUNT_CONTROLLER, {
 	useClass: AccountController,
+});
+
+container.register(InjectionTokens.TRANSACTION_REPOSITORY, {
+	useClass: TransactionRepository,
 });

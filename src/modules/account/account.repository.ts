@@ -5,7 +5,7 @@ import { accounts } from "../../db/schema";
 
 @injectable()
 export class AccountRepository {
-	dbClient = db;
+	private readonly dbClient = db;
 
 	async getAccountByUserId(userId: number) {
 		return this.dbClient.query.accounts.findFirst({

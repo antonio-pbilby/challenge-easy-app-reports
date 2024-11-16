@@ -4,12 +4,15 @@ import type { AccountRepository } from "./account.repository";
 import Decimal from "decimal.js";
 import { BadRequestException } from "../../exceptions/badrequest.exception";
 import { errorAsValue } from "../../utils/error-as-value";
+import type { TransactionRepository } from "../transaction/transaction.repository";
 
 @singleton()
 export class AccountService {
 	constructor(
 		@inject(InjectionTokens.ACCOUNT_REPOSITORY)
 		private accountRepository: AccountRepository,
+		@inject(InjectionTokens.TRANSACTION_REPOSITORY)
+		private transactionRepository: TransactionRepository,
 	) {}
 
 	async getBalance(id: number) {
@@ -38,7 +41,16 @@ export class AccountService {
 			.plus(decimalAmount)
 			.toString();
 
-		return this.accountRepository.updateBalance(account.id, newAmount);
+		const response = await this.accountRepository.updateBalance(
+			account.id,
+			newAmount,
+		);
+		await this.transactionRepository.create({
+			accountId: account.id,
+			amount: decimalAmount.toString(),
+			transactionType: "deposit",
+		});
+		return response;
 	}
 
 	async withdraw({
@@ -61,10 +73,17 @@ export class AccountService {
 
 		const newAmount = new Decimal(account.balance).minus(amount);
 
-		return this.accountRepository.updateBalance(
+		const response = await this.accountRepository.updateBalance(
 			account.id,
 			newAmount.toString(),
 		);
+		await this.transactionRepository.create({
+			accountId: account.id,
+			amount: decimalAmount.toString(),
+			transactionType: "withdraw",
+		});
+
+		return response;
 	}
 
 	async transfer({
@@ -98,6 +117,13 @@ export class AccountService {
 		const recipientNewAmount = new Decimal(recipientAccount.balance).plus(
 			decimalAmount,
 		);
+
+		await this.transactionRepository.create({
+			accountId: senderAccount.id,
+			amount: decimalAmount.toString(),
+			transactionType: "transfer",
+			targetAccountId: recipientAccount.id,
+		});
 
 		return {
 			sender: await this.accountRepository.updateBalance(
