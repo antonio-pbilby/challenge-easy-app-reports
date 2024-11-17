@@ -1,11 +1,15 @@
-import { injectable } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 import type { User } from "./user.entity";
 import { accounts, users } from "../../db/schema";
-import { db } from "../../db";
+import { InjectionTokens } from "../../utils/injection-tokens";
+import type { DrizzleDB } from "../../db/register-db";
 
 @injectable()
 export class UserRepository {
-	private readonly dbClient = db;
+	constructor(
+		@inject(InjectionTokens.DB_CLIENT)
+		private readonly dbClient: DrizzleDB,
+	) {}
 	async create(user: User) {
 		const createdUser = await this.dbClient
 			.insert(users)
@@ -19,7 +23,7 @@ export class UserRepository {
 	}
 
 	async findByEmailOrCpf({ cpf, email }: { email: string; cpf: string }) {
-		const user = await db.query.users.findFirst({
+		const user = await this.dbClient.query.users.findFirst({
 			where: (users, { eq, or }) =>
 				or(eq(users.email, email), eq(users.cpf, cpf)),
 		});

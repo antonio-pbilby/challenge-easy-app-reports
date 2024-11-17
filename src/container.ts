@@ -8,26 +8,28 @@ import { AccountService } from "./modules/account/account.service";
 import { AccountController } from "./modules/account/account.controller";
 import { TransactionRepository } from "./modules/transaction/transaction.repository";
 
-container.register(InjectionTokens.USER_REPOSITORY, {
-	useClass: UserRepository,
-});
-container.register(InjectionTokens.USER_SERVICE, {
-	useClass: UserService,
-});
-container.register(InjectionTokens.USER_CONTROLLER, {
-	useClass: UserController,
-});
+export const initContainer = () => {
+	container.register(InjectionTokens.USER_REPOSITORY, {
+		useClass: UserRepository,
+	});
+	container.register(InjectionTokens.TRANSACTION_REPOSITORY, {
+		useClass: TransactionRepository,
+	});
+	container.register(InjectionTokens.ACCOUNT_REPOSITORY, {
+		useClass: AccountRepository,
+	});
 
-container.register(InjectionTokens.ACCOUNT_REPOSITORY, {
-	useClass: AccountRepository,
-});
-container.register(InjectionTokens.ACCOUNT_SERVICE, {
-	useClass: AccountService,
-});
-container.register(InjectionTokens.ACCOUNT_CONTROLLER, {
-	useClass: AccountController,
-});
+	container.register(InjectionTokens.USER_SERVICE, {
+		useClass: UserService,
+	});
+	container.register(InjectionTokens.ACCOUNT_SERVICE, {
+		useClass: AccountService,
+	});
 
-container.register(InjectionTokens.TRANSACTION_REPOSITORY, {
-	useClass: TransactionRepository,
-});
+	container.register(InjectionTokens.USER_CONTROLLER, {
+		useClass: UserController,
+	});
+	container.register(InjectionTokens.ACCOUNT_CONTROLLER, {
+		useClass: AccountController,
+	});
+};

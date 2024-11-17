@@ -1,14 +1,17 @@
-import { injectable } from "tsyringe";
-import { db } from "../../db";
+import { inject, injectable } from "tsyringe";
 import { eq } from "drizzle-orm";
 import { accounts } from "../../db/schema";
 import Decimal from "decimal.js";
-import { withdrawSchema } from "./schemas/withdraw.schema";
 import { BadRequestException } from "../../exceptions/badrequest.exception";
+import { InjectionTokens } from "../../utils/injection-tokens";
+import type { DrizzleDB } from "../../db/register-db";
 
 @injectable()
 export class AccountRepository {
-	private readonly dbClient = db;
+	constructor(
+		@inject(InjectionTokens.DB_CLIENT)
+		private readonly dbClient: DrizzleDB,
+	) {}
 
 	async getAccountByUserId(userId: number) {
 		return this.dbClient.query.accounts.findFirst({

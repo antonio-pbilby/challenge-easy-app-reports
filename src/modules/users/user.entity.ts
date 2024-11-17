@@ -3,5 +3,4 @@ export interface User {
 	email: string;
 	cpf: string;
 	password: string;
-	// TODO adicionar createdAt/updatedAt/deletedAt
 }

@@ -1,8 +1,14 @@
-import { db } from "../../db";
+import { inject, injectable } from "tsyringe";
 import { type InsertTransaction, transactions } from "../../db/schema";
+import { InjectionTokens } from "../../utils/injection-tokens";
+import type { DrizzleDB } from "../../db/register-db";
 
+@injectable()
 export class TransactionRepository {
-	private readonly dbClient = db;
+	constructor(
+		@inject(InjectionTokens.DB_CLIENT)
+		private readonly dbClient: DrizzleDB,
+	) {}
 
 	async create(transaction: InsertTransaction) {
 		return this.dbClient.insert(transactions).values(transaction).returning();
