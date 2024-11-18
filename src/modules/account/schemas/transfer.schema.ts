@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { realNumberRegex } from "../../../utils/constants/real-number-regex";
+import { realNumberRegex } from "../../../app/utils/constants/real-number-regex";
 
 export const transferSchema = z.object({
 	body: z.object({

@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
-import { type InsertTransaction, transactions } from "../../db/schema";
-import { InjectionTokens } from "../../utils/injection-tokens";
-import type { DrizzleDB } from "../../db/register-db";
+import { InjectionTokens } from "../../app/utils/injection-tokens";
+import type { DrizzleDB } from "../../infra/db/register-db";
+import { type InsertTransaction, transactions } from "../../infra/db/schema";
 
 @injectable()
 export class TransactionRepository {

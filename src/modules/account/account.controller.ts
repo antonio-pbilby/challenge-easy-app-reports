@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
 import { inject, singleton } from "tsyringe";
-import { InjectionTokens } from "../../utils/injection-tokens";
+import { InjectionTokens } from "../../app/utils/injection-tokens";
 import type { AccountService } from "./account.service";
-import type { RequestWithUser } from "../../types/request-with-user";
+import type { RequestWithUser } from "../../app/types/request-with-user";
 
 @singleton()
 export class AccountController {

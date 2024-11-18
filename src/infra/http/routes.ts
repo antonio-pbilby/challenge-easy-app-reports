@@ -1,15 +1,15 @@
 import { Router } from "express";
 import { container } from "tsyringe";
-import type { UserController } from "./modules/users/users.controller";
-import { InjectionTokens } from "./utils/injection-tokens";
+import type { UserController } from "../../modules/users/users.controller";
+import { InjectionTokens } from "../../app/utils/injection-tokens";
+import type { AccountController } from "../../modules/account/account.controller";
 import { validateRequest } from "./middlewares/validation.middleware";
-import { createUserSchema } from "./modules/users/schemas/create-user.schema";
-import { loginSchema } from "./modules/users/schemas/login.schema";
+import { createUserSchema } from "../../modules/users/schemas/create-user.schema";
+import { loginSchema } from "../../modules/users/schemas/login.schema";
 import { authenticate } from "./middlewares/authenticate.middleware";
-import type { AccountController } from "./modules/account/account.controller";
-import { depositSchema } from "./modules/account/schemas/deposit.schema";
-import { withdrawSchema } from "./modules/account/schemas/withdraw.schema";
-import { transferSchema } from "./modules/account/schemas/transfer.schema";
+import { depositSchema } from "../../modules/account/schemas/deposit.schema";
+import { withdrawSchema } from "../../modules/account/schemas/withdraw.schema";
+import { transferSchema } from "../../modules/account/schemas/transfer.schema";
 import { app } from "./app";
 
 export const initializeRoutes = () => {

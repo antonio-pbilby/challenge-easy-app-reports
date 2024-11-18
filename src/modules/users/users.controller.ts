@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { inject, singleton } from "tsyringe";
-import { InjectionTokens } from "../../utils/injection-tokens";
+import { InjectionTokens } from "../../app/utils/injection-tokens";
 import type { UserService } from "./user.service";
 
 @singleton()

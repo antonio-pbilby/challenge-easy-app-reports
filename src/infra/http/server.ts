@@ -1,12 +1,12 @@
 import "reflect-metadata";
-import "./container";
+import "../../app/container";
 import { json } from "express";
 import { errorHandler } from "./middlewares/error-handler.middleware";
 import { app } from "./app";
-import { envConfig } from "./config";
-import { initContainer } from "./container";
-import { registerDb } from "./db/register-db";
+import { envConfig } from "../../app/config";
+import { initContainer } from "../../app/container";
 import { initializeRoutes } from "./routes";
+import { registerDb } from "../db/register-db";
 
 export const startServer = (testDatabaseUrl?: string) => {
 	registerDb(testDatabaseUrl || envConfig.DATABASE_URL);

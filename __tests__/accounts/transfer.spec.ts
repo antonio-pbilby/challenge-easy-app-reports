@@ -1,19 +1,19 @@
 import "reflect-metadata";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 import request from "supertest";
-import { app } from "../../src/app";
+import { app } from "../../src/infra/http/app";
 import type { z } from "zod";
 import type { createUserSchema } from "../../src/modules/users/schemas/create-user.schema";
 import { PostgreSqlContainer } from "@testcontainers/postgresql";
-import { startServer } from "../../src/server";
+import { startServer } from "../../src/infra/http/server";
 import { execSync } from "node:child_process";
 import { container } from "tsyringe";
-import { InjectionTokens } from "../../src/utils/injection-tokens";
-import type { DrizzleDB } from "../../src/db/register-db";
+import { InjectionTokens } from "../../src/app/utils/injection-tokens";
+import type { DrizzleDB } from "../../src/infra/db/register-db";
+import { schemasPath } from "../schema-path";
 
 beforeAll(async () => {
 	const dbContainer = await new PostgreSqlContainer().start();
-	const schemasPath = "./src/db/schema.ts";
 	execSync(
 		`npx drizzle-kit push --dialect=postgresql --schema=${schemasPath} --url=${dbContainer.getConnectionUri()}`,
 	);

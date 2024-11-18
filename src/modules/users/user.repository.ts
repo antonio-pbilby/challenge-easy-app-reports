@@ -1,8 +1,8 @@
 import { inject, injectable } from "tsyringe";
 import type { User } from "./user.entity";
-import { accounts, users } from "../../db/schema";
-import { InjectionTokens } from "../../utils/injection-tokens";
-import type { DrizzleDB } from "../../db/register-db";
+import { InjectionTokens } from "../../app/utils/injection-tokens";
+import type { DrizzleDB } from "../../infra/db/register-db";
+import { accounts, users } from "../../infra/db/schema";
 
 @injectable()
 export class UserRepository {

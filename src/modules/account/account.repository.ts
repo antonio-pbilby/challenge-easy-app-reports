@@ -1,10 +1,10 @@
 import { inject, injectable } from "tsyringe";
 import { eq } from "drizzle-orm";
-import { accounts } from "../../db/schema";
 import Decimal from "decimal.js";
-import { BadRequestException } from "../../exceptions/badrequest.exception";
-import { InjectionTokens } from "../../utils/injection-tokens";
-import type { DrizzleDB } from "../../db/register-db";
+import { BadRequestException } from "../../app/exceptions/badrequest.exception";
+import { InjectionTokens } from "../../app/utils/injection-tokens";
+import type { DrizzleDB } from "../../infra/db/register-db";
+import { accounts } from "../../infra/db/schema";
 
 @injectable()
 export class AccountRepository {

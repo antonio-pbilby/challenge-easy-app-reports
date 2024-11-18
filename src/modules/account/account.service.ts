@@ -1,11 +1,11 @@
 import { inject, singleton } from "tsyringe";
-import { InjectionTokens } from "../../utils/injection-tokens";
+import { InjectionTokens } from "../../app/utils/injection-tokens";
 import type { AccountRepository } from "./account.repository";
 import Decimal from "decimal.js";
-import { BadRequestException } from "../../exceptions/badrequest.exception";
-import { errorAsValue } from "../../utils/error-as-value";
+import { BadRequestException } from "../../app/exceptions/badrequest.exception";
+import { errorAsValue } from "../../app/utils/error-as-value";
 import type { TransactionRepository } from "../transaction/transaction.repository";
-import { envConfig } from "../../config";
+import { envConfig } from "../../app/config";
 
 @singleton()
 export class AccountService {

@@ -1,13 +1,13 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { inject, singleton } from "tsyringe";
-import { AppException } from "../../exceptions/app.exception";
+import { AppException } from "../../app/exceptions/app.exception";
 import type { UserRepository } from "./user.repository";
-import { InjectionTokens } from "../../utils/injection-tokens";
+import { InjectionTokens } from "../../app/utils/injection-tokens";
 import type { CreateUserDTO } from "./schemas/create-user.schema";
-import { LoginException } from "../../exceptions/login.exception";
-import { envConfig } from "../../config";
-import { UnauthorizedException } from "../../exceptions/unauthorized.exception";
+import { LoginException } from "../../app/exceptions/login.exception";
+import { envConfig } from "../../app/config";
+import { UnauthorizedException } from "../../app/exceptions/unauthorized.exception";
 
 @singleton()
 export class UserService {
