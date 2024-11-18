@@ -29,6 +29,15 @@ describe("Create user", () => {
 		confirmPassword: "123qwe@ASD",
 	};
 
+	it("Should health check", async () => {
+		await request(app).get("/healthcheck").expect(200);
+	});
+
+	it("should select from database", async () => {
+		const db = container.resolve<DrizzleDB>(InjectionTokens.DB_CLIENT);
+		await db.execute("SELECT * FROM users");
+	});
+
 	describe("Validation", async () => {
 		it("Should throw an error if a name is not given", async () => {
 			await request(app)
@@ -64,22 +73,88 @@ describe("Create user", () => {
 				.send({ ...validBody, confirmPassword: "1234" })
 				.expect(400);
 		});
+
+		it("should throw an error if a user with the same CPF already exists", async () => {
+			const newUser = {
+				...validBody,
+				cpf: "12345678902",
+				email: "newuser@email.com",
+			};
+			const newUser2 = {
+				...validBody,
+				cpf: "12345678902",
+				email: "newuser2@email.com",
+			};
+
+			await request(app)
+				.post("/users")
+				.send(newUser)
+				.set("Accept", "application/json");
+
+			await request(app)
+				.post("/users")
+				.send(newUser2)
+				.set("Accept", "application/json")
+				.expect(400);
+		});
+
+		it("should throw an error if a user with the same email already exists", async () => {
+			const newUser = {
+				...validBody,
+				cpf: "12345678903",
+				email: "newuser@email.com",
+			};
+			const newUser2 = {
+				...validBody,
+				cpf: "12345678904",
+				email: "newuser@email.com",
+			};
+
+			await request(app)
+				.post("/users")
+				.send(newUser)
+				.set("Accept", "application/json");
+
+			await request(app)
+				.post("/users")
+				.send(newUser2)
+				.set("Accept", "application/json")
+				.expect(400);
+		});
 	});
 
 	it("Should be able to create a user", async () => {
-		const response = await request(app)
+		await request(app)
 			.post("/users")
 			.send(validBody)
 			.set("Accept", "application/json")
 			.expect(201);
 	});
 
-	it("Should health check", async () => {
-		await request(app).get("/healthcheck").expect(200);
+	it("Should be able to login", async () => {
+		const loginbody = {
+			email: validBody.email,
+			password: validBody.password,
+		};
+		const response = await request(app)
+			.post("/auth/login")
+			.send(loginbody)
+			.set("Accept", "application/json")
+			.expect(200);
+
+		expect(response.body.token).toBeDefined();
 	});
 
-	it("should select from database", async () => {
-		const db = container.resolve<DrizzleDB>(InjectionTokens.DB_CLIENT);
-		await db.execute("SELECT * FROM users");
+	it("Should fail login if password or email is invalid", async () => {
+		await request(app)
+			.post("/auth/login")
+			.send({ email: validBody.email, password: "1234" })
+			.set("Accept", "application/json")
+			.expect(401);
+		await request(app)
+			.post("/auth/login")
+			.send({ email: "invalidemail@email.com", password: "1234" })
+			.set("Accept", "application/json")
+			.expect(401);
 	});
 });

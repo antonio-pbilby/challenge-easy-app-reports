@@ -12,7 +12,7 @@
     "build": "rimraf ./dist && tsc -p tsconfig.prod.json",
     "start": "node dist/src/index.js",
     "dev": "tsx watch src/index.ts",
-    "test": "vitest"
+    "test": "NODE_ENV=test vitest"
   },
   "keywords": [],
   "author": "",

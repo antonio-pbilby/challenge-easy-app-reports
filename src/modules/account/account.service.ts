@@ -91,6 +91,9 @@ export class AccountService {
 		amount: string | number;
 		time?: number;
 	}) {
+		if (senderId === recipientId)
+			throw new BadRequestException("Can't transfer to yourself");
+
 		const [error, decimalAmount] = errorAsValue(() =>
 			new Decimal(amount).abs(),
 		);

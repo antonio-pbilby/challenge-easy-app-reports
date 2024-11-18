@@ -11,17 +11,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  integresql:
-    image: ghcr.io/allaboutapps/integresql
-    ports:
-      - "5000:5000"
-    depends_on:
-      - postgres
-    environment:
-      PGHOST: postgres
-      PGUSER: *PGUSER
-      PGPASSWORD: *PGPASSWORD
-
   app:
     container_name: app
     build:
