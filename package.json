@@ -12,7 +12,8 @@
     "build": "rimraf ./dist && tsc -p tsconfig.prod.json",
     "start": "node dist/src/index.js",
     "dev": "tsx watch src/index.ts",
-    "test": "NODE_ENV=test vitest"
+    "test": "NODE_ENV=test vitest",
+    "db:push": "npx drizzle-kit push"
   },
   "keywords": [],
   "author": "",

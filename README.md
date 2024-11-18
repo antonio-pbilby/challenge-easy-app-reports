@@ -24,7 +24,7 @@ docker compose up postgres
 This project uses drizzleORM, and to setup the database, you can run the npx command, don't forget to setup your `.env`:
 
 ```
-npx drizzle-kit push
+npm run db:push
 ```
 
 ### Run a dev server
@@ -144,3 +144,15 @@ Alternatively, you can use the `api-docs.json` in the root folder to import into
 - Description: Retrieves the transaction history for the account.
 - Headers:
   - `Authorization`: "Bearer {{token}}"
+
+# Tests
+
+This project implements E2E (End to End) tests. Such approach was used because the way to deal with concurrency is through Row level Write locks in the Postgres Database.
+
+It uses vitest as the test engine, supertest to make http requests and test containers to create a database instance.
+
+To run the tests:
+
+```
+npm run test
+```
